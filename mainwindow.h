@@ -2,6 +2,9 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QLineEdit>
+#include <QTableWidget>
+#include <QDebug>
 
 namespace Ui {
 class MainWindow;
@@ -16,7 +19,12 @@ public:
     ~MainWindow();
 
 private:
+    int col;
+    int row;
     Ui::MainWindow *ui;
+private slots:
+    void create_matrix();
+    void consider();
 };
 
 #endif // MAINWINDOW_H
