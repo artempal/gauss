@@ -5,6 +5,7 @@
 #include <QLineEdit>
 #include <QTableWidget>
 #include <QDebug>
+#include "complex.h"
 
 namespace Ui {
 class MainWindow;
@@ -18,9 +19,22 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+    bool sravnenie(Complex &c);
+    bool sravnenie1(Complex &c);
+    bool Swap(int i, int j);
+    void vvod_matrici();
+    void vivod_matrici();
+    int Ne_nol(int z);
+    bool Rang();
+    void PryamoiHod();
+    void ObratniHod();
+    void Vivod_Otvetov();
+
 private:
-    int col;
-    int row;
+    int col; //столбцы
+    int row; //строки
+    Complex **mtr; //матрица
+    Complex *b; //столбец ответов
     Ui::MainWindow *ui;
 private slots:
     void create_matrix();
