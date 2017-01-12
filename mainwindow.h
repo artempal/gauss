@@ -5,6 +5,7 @@
 #include <QLineEdit>
 #include <QTableWidget>
 #include <QDebug>
+#include <QVector>
 #include "complex.h"
 
 namespace Ui {
@@ -35,6 +36,8 @@ private:
     int row; //строки
     Complex **mtr; //матрица
     Complex *b; //столбец ответов
+    //QVector<QVector <Complex>> mtr;
+    //QVector <Complex> b;
     Ui::MainWindow *ui;
 private slots:
     void create_matrix();

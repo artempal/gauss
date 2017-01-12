@@ -87,37 +87,44 @@ void MainWindow::consider()
     ui->result->setText(res);
     */
 
+    //*
+    mtr = new Complex *[row];
+    for (int i = 0; i < col; i++)
+    {
+        mtr[i] = new Complex[col];
+    }
+    b = new Complex[row];
+    //*/
 
 
-
-    **mtr = ** new Complex *[col];
+    /*
+    b.reserve(row);
+    mtr.reserve(row);
     for (int i = 0; i < row; i++)
     {
-        mtr[i] = new Complex[row];
+        mtr[i].reserve(col);
     }
-    *b = * new Complex[col];
+    */
 
-
-
-            vvod_matrici();//заполняем 2 массива значениями
-            PryamoiHod();//выполняем прямой ход метода Гаусса
-            //vivod_matrici(mtr, n, b, m);//выводим результат
-            if (!Rang())//закидываем результат прямого хода в функцию для проверки ранга, если rang[A] < rang[A|b] то выводим на экран сообщение о несовместности системы и завершаем программу
-                qDebug() << "\nSistema ne sovmestna tak kak rang[A] < rang[A|b]" << endl;
-            else
-            {
-                ObratniHod();//иначе делаем обратный ход метода Гаусса
-                //cout << "\nRezultat obratnogo hoda" << endl;
-                //vivod_matrici(mtr, n, b, m);//выводим результат
-                //printf("\nOtveti:\n");
-                Vivod_Otvetov();//выводим полученные ответы
-            }
-            for (int i = 0; i < row; i++) {
-                delete[]mtr[i];
-            }
-            delete[]mtr;
-            delete[]b;
-            //printf("\nNajmite 'y' dl9 povtornogo vvoda\n");
+    vvod_matrici();//заполняем 2 массива значениями
+    PryamoiHod();//выполняем прямой ход метода Гаусса
+    //vivod_matrici(mtr, n, b, m);//выводим результат
+    if (!Rang())//закидываем результат прямого хода в функцию для проверки ранга, если rang[A] < rang[A|b] то выводим на экран сообщение о несовместности системы и завершаем программу
+        qDebug() << "\nSistema ne sovmestna tak kak rang[A] < rang[A|b]" << endl;
+    else
+    {
+        ObratniHod();//иначе делаем обратный ход метода Гаусса
+        //cout << "\nRezultat obratnogo hoda" << endl;
+        //vivod_matrici(mtr, n, b, m);//выводим результат
+        //printf("\nOtveti:\n");
+        Vivod_Otvetov();//выводим полученные ответы
+    }
+    //for (int i = 0; i < row; i++) {
+    //    delete[]mtr[i];
+    //}
+    //delete[]mtr;
+   // delete[]b;
+    //printf("\nNajmite 'y' dl9 povtornogo vvoda\n");
 
 
 
@@ -176,10 +183,11 @@ void MainWindow::vvod_matrici()
         {
             QTableWidgetItem *item = ui->tableWidget->item(i,j); //получим ячейку с индексами
             QString text = item->text(); //получим текст ячейки
-            QStringList list = text.split("+"); //разделим на две части по +
-            list[1].chop(1);//удалим i в конце
-            mtr[i][j].Re = list[0].toDouble();
-            mtr[i][j].Im = list[1].toDouble();
+            mtr[i][j].Re = text.toDouble();
+            //QStringList list = text.split("+"); //разделим на две части по +
+            //list[1].chop(1);//удалим i в конце
+            //mtr[i][j].Re = list[0].toDouble();
+            //mtr[i][j].Im = list[1].toDouble();
         }
     }
     for (int l = 0; l < row; l++)
