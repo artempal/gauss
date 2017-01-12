@@ -88,12 +88,12 @@ void MainWindow::consider()
     */
 
     //*
-    mtr = new Complex *[row];
-    for (int i = 0; i < col; i++)
+    mtr = new Complex *[col];
+    for (int i = 0; i < row; i++)
     {
-        mtr[i] = new Complex[col];
+        mtr[i] = new Complex[row];
     }
-    b = new Complex[row];
+    b = new Complex[col];
     //*/
 
 
@@ -177,20 +177,20 @@ bool MainWindow::Swap(int i, int j)
 void MainWindow::vvod_matrici()
 {
     int i, j;
-    for (i = 0; i < row; i++)
+    for (i = 0; i < col-1; i++)
     {
-        for (j = 0; j < col; j++)
+        for (j = 0; j < row+1; j++)
         {
             QTableWidgetItem *item = ui->tableWidget->item(i,j); //получим ячейку с индексами
             QString text = item->text(); //получим текст ячейки
-            mtr[i][j].Re = text.toDouble();
-            //QStringList list = text.split("+"); //разделим на две части по +
-            //list[1].chop(1);//удалим i в конце
-            //mtr[i][j].Re = list[0].toDouble();
-            //mtr[i][j].Im = list[1].toDouble();
+            QStringList list = text.split("+"); //разделим на две части по +
+            list[1].chop(1);//удалим i в конце
+            mtr[i][j].Re = list[0].toDouble();
+            mtr[i][j].Im = list[1].toDouble();
         }
     }
-    for (int l = 0; l < row; l++)
+    i = 0;
+    for (int l = 0; l < col-1; l++)
     {
         QTableWidgetItem *item = ui->tableWidget->item(i+l,j); //получим ячейку с индексами
         QString text = item->text(); //получим текст ячейки
@@ -199,6 +199,7 @@ void MainWindow::vvod_matrici()
         b[l].Re = list[0].toDouble();
         b[l].Im = list[1].toDouble();
     }
+
 }
 
 int MainWindow::Ne_nol(int z)
