@@ -32,7 +32,7 @@ void MainWindow::create_matrix()
 
 
     ui->tableWidget->setRowCount(row); // указываем количество строк
-    ui->tableWidget->setColumnCount(col+1); // указываем количество столбцов плюс столбец ответов
+    ui->tableWidget->setColumnCount(col); // указываем количество столбцов плюс столбец ответов
     ui->tableWidget->setHorizontalHeaderLabels(head); //задаем шапку
 
     // выделяем память под все ячейки таблицы
@@ -119,15 +119,12 @@ void MainWindow::consider()
         //printf("\nOtveti:\n");
         Vivod_Otvetov();//выводим полученные ответы
     }
-    //for (int i = 0; i < row; i++) {
-    //    delete[]mtr[i];
-    //}
-    //delete[]mtr;
-   // delete[]b;
+    for (int i = 0; i < row; i++) {
+        delete[]mtr[i];
+    }
+    delete[]mtr;
+    delete[]b;
     //printf("\nNajmite 'y' dl9 povtornogo vvoda\n");
-
-
-
 
     ui->matrix_page->hide();
     ui->answer_page->show();
@@ -179,14 +176,23 @@ void MainWindow::vvod_matrici()
     int i, j;
     for (i = 0; i < col-1; i++)
     {
-        for (j = 0; j < row+1; j++)
+        for (j = 0; j < row; j++)
         {
             QTableWidgetItem *item = ui->tableWidget->item(i,j); //получим ячейку с индексами
             QString text = item->text(); //получим текст ячейки
-            QStringList list = text.split("+"); //разделим на две части по +
-            list[1].chop(1);//удалим i в конце
-            mtr[i][j].Re = list[0].toDouble();
-            mtr[i][j].Im = list[1].toDouble();
+            if(text.indexOf("+") != -1)
+            {
+                    QStringList list = text.split("+"); //разделим на две части по +
+                    list[1].chop(1);//удалим i в конце
+                    mtr[i][j].Re = list[0].toDouble();
+                    mtr[i][j].Im = list[1].toDouble();
+                    break;
+            }
+            else
+            {
+                mtr[i][j].Re = text.toDouble();
+                mtr[i][j].Im = 0;
+            }
         }
     }
     i = 0;
@@ -194,10 +200,19 @@ void MainWindow::vvod_matrici()
     {
         QTableWidgetItem *item = ui->tableWidget->item(i+l,j); //получим ячейку с индексами
         QString text = item->text(); //получим текст ячейки
-        QStringList list = text.split("+"); //разделим на две части по +
-        list[1].chop(1);//удалим i в конце
-        b[l].Re = list[0].toDouble();
-        b[l].Im = list[1].toDouble();
+        if(text.indexOf("+") != -1)
+        {
+                QStringList list = text.split("+"); //разделим на две части по +
+                list[1].chop(1);//удалим i в конце
+                b[l].Re = list[0].toDouble();
+                b[l].Im = list[1].toDouble();
+                break;
+        }
+        else
+        {
+            b[l].Re = text.toDouble();
+            b[l].Im = 0;
+        }
     }
 
 }
@@ -327,16 +342,26 @@ void MainWindow::ObratniHod()
 
 void MainWindow::Vivod_Otvetov()
 {
+    QString res = "Ответ: \n ";
     int i, l;
     for (i = 0; i < row; i++)
     {
         l = Ne_nol(i);
-        if (l != (-1))
+        //if (l != (-1))
             //cout.precision(3);
-        qDebug() << "x[" << l + 1 << "] =" << fixed << b[i].Re << b[i].Im << endl;
+            res.append("x[")
+                    .append(QString::number(l+1))
+                    .append("] =")
+                    .append(QString::number(b[i].Re, 'f',2))
+                    .append("+")
+                    .append(QString::number(b[i].Im, 'f',2))
+                    .append("i")
+                    .append("\n");
+
+        //qDebug() << "x[" << l + 1 << "] =" << fixed << b[i].Re << b[i].Im << endl;
     }
     //QString res = "Ответ: x1= , x2= "; //здесь будет твой ответ
-    //ui->result->setText(res);
+    ui->result->setText(res);
 }
 
 /*void MainWindow::Vivod_Otvetov()
